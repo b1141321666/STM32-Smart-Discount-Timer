@@ -52,25 +52,25 @@ TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 
-// 計時狀態：0 = 等待開始，1 = 計時中
+
 volatile uint8_t timer_running = 0;
 
-// 按鈕防彈跳
+
 volatile uint32_t last_button_tick = 0;
 
-// TIM2 計時結果（單位：微秒）
+
 volatile uint32_t elapsed_us = 0;
 
-// 挑戰完成旗標
+
 volatile uint8_t result_ready = 0;
 volatile uint8_t system_busy = 0;
 
-// 計算結果
+
 float elapsed_time = 0.0f;
 float time_error = 0.0f;
 uint8_t discount = 100;
 
-// UART 傳送字串
+
 char uart_buffer[100];
 
 /* USER CODE END PV */
@@ -146,10 +146,10 @@ int main(void)
 	  {
 	      result_ready = 0;
 
-	      // 將微秒轉換為秒
+
 	      elapsed_time = elapsed_us / 1000000.0f;
 
-	      // 計算與 10 秒的絕對誤差
+
 	      uint32_t error_us;
 
 	      if (elapsed_us >= 10000000UL)
@@ -159,7 +159,7 @@ int main(void)
 
 	      time_error = error_us / 1000000.0f;
 
-	      // 判斷折扣
+
 	      if (error_us <= 50000UL)
 	          discount = 5;
 	      else if (error_us <= 200000UL)
@@ -169,7 +169,7 @@ int main(void)
 	      else
 	          discount = 10;
 
-	      // 組合 UART 傳送字串
+
 	      char tx_buffer[128];
 
 	      snprintf(tx_buffer, sizeof(tx_buffer),
@@ -180,15 +180,15 @@ int main(void)
 	               (unsigned long)(error_us % 1000000UL),
 	               (unsigned int)discount);
 
-	      // 傳送到電腦
+
 	      HAL_UART_Transmit(&hlpuart1,
 	                        (uint8_t *)tx_buffer,
 	                        strlen(tx_buffer),
 	                        1000);
-	      // LED 呼吸三次
+
 	      LED_Breath_3Times();
 
-	      // 呼吸結束後，允許下一輪挑戰
+
 	      system_busy = 0;
 	  }
   /* USER CODE END 3 */
@@ -425,7 +425,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
     if (GPIO_Pin == GPIO_PIN_13)
     {
-        // 系統忙碌時忽略按鈕
+
         if (system_busy == 1)
         {
             return;
@@ -433,7 +433,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
         uint32_t now = HAL_GetTick();
 
-        // 按鈕防彈跳
+
         if ((now - last_press_ms) < 200)
         {
             return;
@@ -443,7 +443,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 
         if (timer_running == 0)
         {
-            // 第一次按下：開始計時
+
             result_ready = 0;
             elapsed_us = 0;
 
@@ -454,7 +454,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
         }
         else
         {
-            // 第二次按下：停止計時
+
             elapsed_us = __HAL_TIM_GET_COUNTER(&htim2);
             HAL_TIM_Base_Stop(&htim2);
 
@@ -468,14 +468,14 @@ void LED_Breath_3Times(void)
 {
     for (int cycle = 0; cycle < 3; cycle++)
     {
-        // LED 逐漸變亮
+
         for (int duty = 0; duty <= 999; duty += 10)
         {
             __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);
             HAL_Delay(5);
         }
 
-        // LED 逐漸變暗
+
         for (int duty = 999; duty >= 0; duty -= 10)
         {
             __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, duty);
@@ -483,7 +483,7 @@ void LED_Breath_3Times(void)
         }
     }
 
-    // 呼吸結束，LED 熄滅
+
     __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
 }
 /* USER CODE END 4 */
