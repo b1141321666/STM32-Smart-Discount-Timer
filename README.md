@@ -146,7 +146,7 @@ python gui.py
 
 透過 LPUART1 和 ST-LINK Virtual COM Port，以 115200 baud 將計時結果傳送至電腦，再由 Python tkinter GUI 顯示 Time、Error 和 Discount。
 
-![UART 與 Python GUI 成果](images/UART介面成果.png)
+![UART 與 Python GUI 成果](images/UART介面成果_新版.png)
 ### 十、AI 輔助說明
 
 本專題使用 ChatGPT 輔助 STM32CubeMX 硬體設定、HAL 程式撰寫、除錯及 Python GUI 開發。
