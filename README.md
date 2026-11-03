@@ -134,8 +134,19 @@ python gui.py
 
 ### 九、實作成果
 
-本專題已完成 STM32 按鈕計時、誤差及折扣計算、UART 資料傳送、Python GUI 結果顯示，以及 PWM LED 呼吸燈功能，並已進行實際開發板整合測試。
+本專題已完成 STM32 按鈕計時、折扣計算、UART 資料傳送、Python GUI 顯示，以及 PWM LED 呼吸燈功能，並完成實際開發板測試。
 
+#### 1. STM32 硬體實作成果
+
+使用 NUCLEO-G474RE 開發板，搭配黃色 LED、電阻與麵包板。透過 B1 按鈕控制計時，並使用 TIM3 PWM 控制 LED 呼吸三次。
+
+![STM32 計時折扣機硬體成果](images/計時機成果圖.png)
+
+#### 2. UART 通訊與 Python GUI 成果
+
+透過 LPUART1 和 ST-LINK Virtual COM Port，以 115200 baud 將計時結果傳送至電腦，再由 Python tkinter GUI 顯示 Time、Error 和 Discount。
+
+![UART 與 Python GUI 成果](images/UART介面成果.png)
 ### 十、AI 輔助說明
 
 本專題使用 ChatGPT 輔助 STM32CubeMX 硬體設定、HAL 程式撰寫、除錯及 Python GUI 開發。
